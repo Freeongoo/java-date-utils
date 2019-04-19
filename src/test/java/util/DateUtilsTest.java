@@ -65,12 +65,10 @@ public class DateUtilsTest {
         assertThat(beginCurrDay, equalTo(expected));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void getBeginCurrDay_WhenNull() {
         LocalDateTime dateTime = null;
         LocalDateTime beginCurrDay = DateUtils.getBeginCurrDay(dateTime);
-
-        assertNull(beginCurrDay);
     }
 
     @Test
@@ -84,12 +82,10 @@ public class DateUtilsTest {
         assertThat(endCurrDay, equalTo(expected));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void getEndCurrDay_WhenNull() {
         LocalDateTime dateTime = null;
         LocalDateTime beginCurrDay = DateUtils.getEndCurrDay(dateTime);
-
-        assertNull(beginCurrDay);
     }
 
     @Test
@@ -140,26 +136,21 @@ public class DateUtilsTest {
         Date date = parseISO("02022017");
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void parseISO_WhenNull() {
         Date date = parseISO(null);
-        assertNull(date);
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void getCountDays_WhenFromNullDate() {
         Date dateTo = parseISO("2017-02-02T10:10:10");
         Long countDays = DateUtils.getCountDaysBetween(null, dateTo);
-
-        assertThat(countDays, equalTo(0L));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void getCountDays_WhenToNullDate() {
         Date dateFrom = parseISO("2017-02-02T10:10:10");
         Long countDays = DateUtils.getCountDaysBetween(dateFrom, null);
-
-        assertThat(countDays, equalTo(0L));
     }
 
     @Test
@@ -205,7 +196,7 @@ public class DateUtilsTest {
         Long countDays = DateUtils.getCountDaysBetween(dateFrom, dateTo);
 
         // expected
-        Long expectedCountDays = 0L;
+        Long expectedCountDays = -2L;
 
         assertThat(countDays, equalTo(expectedCountDays));
     }
@@ -243,9 +234,8 @@ public class DateUtilsTest {
         assertThat(actual, equalTo(expected));
     }
 
-    @Test
+    @Test(expected = NullPointerException.class)
     public void calcIncOrDecDays_WhenNull() {
         Date actual = DateUtils.calcIncOrDecDays(null, 0);
-        assertNull(actual);
     }
 }
