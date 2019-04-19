@@ -13,7 +13,7 @@ public class DateUtils {
 
     public static final String DATE_FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss";   // ISO 8601
 
-    public static final long DAY_IN_MSEC = 24 * 60 * 60 * 1000;
+    public static final int DAY_IN_MSEC = 24 * 60 * 60 * 1000;
 
     public static final int MIN_IN_MSEC = 60 * 1000;
 
