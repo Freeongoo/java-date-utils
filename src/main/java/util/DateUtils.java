@@ -11,11 +11,11 @@ public class DateUtils {
 
     public static final String ONLY_DATE_FORMAT_ISO = "yyyy-MM-dd";
 
-    public static final String DATE_FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss"; // ISO 8601
+    public static final String DATE_FORMAT_ISO = "yyyy-MM-dd'T'HH:mm:ss";   // ISO 8601
 
-    public static final long DAY_IN_MSEC = 24 * 60 * 60 * 1000L;
+    public static final long DAY_IN_MSEC = 24 * 60 * 60 * 1000;
 
-    public static final int MSEC_IN_ONE_MIN = 60 * 1000;
+    public static final int MIN_IN_MSEC = 60 * 1000;
 
     /**
      * With included boundary dates
@@ -30,7 +30,8 @@ public class DateUtils {
         validateDate(dateFrom);
         validateDate(dateTo);
 
-        return (date.after(dateFrom) && date.before(dateTo)) || date.equals(dateFrom) || date.equals(dateTo);
+        return (date.after(dateFrom) && date.before(dateTo)) ||
+                date.equals(dateFrom) || date.equals(dateTo);
     }
 
     /**
@@ -41,7 +42,9 @@ public class DateUtils {
      */
     public static Date asDate(LocalDate localDate) {
         validateDate(localDate);
-        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(localDate.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
     }
 
     /**
@@ -63,7 +66,9 @@ public class DateUtils {
      */
     public static Date asDateFromUTC(LocalDate localDate) {
         validateDate(localDate);
-        return Date.from(localDate.atStartOfDay().atZone(ZoneOffset.UTC).toInstant());
+        return Date.from(localDate.atStartOfDay()
+                .atZone(ZoneOffset.UTC)
+                .toInstant());
     }
 
     /**
@@ -74,7 +79,9 @@ public class DateUtils {
      */
     public static Date asDate(LocalDateTime localDateTime) {
         validateDate(localDateTime);
-        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(localDateTime
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
     }
 
     /**
@@ -85,7 +92,9 @@ public class DateUtils {
      */
     public static Date asDateFromUTC(LocalDateTime localDateTime) {
         validateDate(localDateTime);
-        return Date.from(localDateTime.atZone(ZoneOffset.UTC).toInstant());
+        return Date.from(localDateTime
+                .atZone(ZoneOffset.UTC)
+                .toInstant());
     }
 
     /**
@@ -96,7 +105,9 @@ public class DateUtils {
      */
     public static LocalDate asLocalDate(Date date) {
         validateDate(date);
-        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        return Instant.ofEpochMilli(date.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 
     /**
@@ -107,7 +118,9 @@ public class DateUtils {
      */
     public static LocalDateTime asLocalDateTime(Date date) {
         validateDate(date);
-        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return Instant.ofEpochMilli(date.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 
     /**
