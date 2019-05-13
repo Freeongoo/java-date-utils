@@ -9,5 +9,8 @@
         <module name="java-date-utils" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="java-date-utils" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

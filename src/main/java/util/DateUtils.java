@@ -17,6 +17,15 @@ public class DateUtils {
 
     public static final int MIN_IN_MSEC = 60 * 1000;
 
+
+    public static java.sql.Date convertUtilToSql(java.util.Date uDate) {
+        return new java.sql.Date(uDate.getTime());
+    }
+
+    public static java.util.Date convertSqlToUtil(java.sql.Date sDate) {
+        return new java.util.Date(sDate.getTime());
+    }
+
     /**
      * With included boundary dates
      *

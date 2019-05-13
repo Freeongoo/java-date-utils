@@ -19,6 +19,14 @@ public class DateUtilsTest {
     }
 
     @Test
+    public void convertUtilToSql() {
+        Date date = parseISO("2018-02-02T10:10:10");
+        java.sql.Date dateSql = DateUtils.convertUtilToSql(date);
+        assertTrue(dateSql instanceof java.sql.Date);
+        assertThat(dateSql, equalTo(new java.sql.Date(1517566210000L)));
+    }
+
+    @Test
     public void isBetween_WhenIn() {
         Date date = parseISO("2018-02-02T10:10:10");
         Date dateFrom = parseISO("2018-02-02T00:00:00");
