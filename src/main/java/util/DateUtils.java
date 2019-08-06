@@ -3,13 +3,10 @@ package util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Important! Convert to timestamp from UTC
- */
 public class DateUtils {
 
     public static final String ONLY_DATE_FORMAT_ISO = "yyyy-MM-dd";
@@ -20,7 +17,18 @@ public class DateUtils {
 
     public static final int MIN_IN_MSEC = 60 * 1000;
 
-    public static final TimeZone UTC = TimeZone.getTimeZone("UTC");
+    public static final String DEFAULT_TIME_ZONE_STRING = "UTC";    // change this if need (Ex.: "Europe/Moscow")
+
+    public static final TimeZone DEFAULT_TIME_ZONE = TimeZone.getTimeZone(DEFAULT_TIME_ZONE_STRING);
+
+    public static final ZoneOffset DEFAULT_ZONE_OFFSET;
+
+    static {
+        int rawOffset = DEFAULT_TIME_ZONE.getRawOffset();
+        long offsetInHours = TimeUnit.HOURS.convert(rawOffset, TimeUnit.MILLISECONDS);
+
+        DEFAULT_ZONE_OFFSET = ZoneOffset.ofHours((int)offsetInHours);
+    }
 
 
     public static java.sql.Date convertUtilToSql(java.util.Date uDate) {
@@ -57,7 +65,7 @@ public class DateUtils {
     public static Date asDate(LocalDate localDate) {
         validateDate(localDate);
         return Date.from(localDate.atStartOfDay()
-                .atZone(ZoneOffset.UTC)
+                .atZone(DEFAULT_ZONE_OFFSET)
                 .toInstant());
     }
 
@@ -81,7 +89,7 @@ public class DateUtils {
     public static Date asDateFromUTC(LocalDate localDate) {
         validateDate(localDate);
         return Date.from(localDate.atStartOfDay()
-                .atZone(ZoneOffset.UTC)
+                .atZone(DEFAULT_ZONE_OFFSET)
                 .toInstant());
     }
 
@@ -94,7 +102,7 @@ public class DateUtils {
     public static Date asDate(LocalDateTime localDateTime) {
         validateDate(localDateTime);
         return Date.from(localDateTime
-                .atZone(ZoneOffset.UTC)
+                .atZone(DEFAULT_ZONE_OFFSET)
                 .toInstant());
     }
 
@@ -107,7 +115,7 @@ public class DateUtils {
     public static Date asDateFromUTC(LocalDateTime localDateTime) {
         validateDate(localDateTime);
         return Date.from(localDateTime
-                .atZone(ZoneOffset.UTC)
+                .atZone(DEFAULT_ZONE_OFFSET)
                 .toInstant());
     }
 
@@ -120,7 +128,7 @@ public class DateUtils {
     public static LocalDate asLocalDate(Date date) {
         validateDate(date);
         return Instant.ofEpochMilli(date.getTime())
-                .atZone(ZoneOffset.UTC)
+                .atZone(DEFAULT_ZONE_OFFSET)
                 .toLocalDate();
     }
 
@@ -133,7 +141,7 @@ public class DateUtils {
     public static LocalDateTime asLocalDateTime(Date date) {
         validateDate(date);
         return Instant.ofEpochMilli(date.getTime())
-                .atZone(ZoneOffset.UTC)
+                .atZone(DEFAULT_ZONE_OFFSET)
                 .toLocalDateTime();
     }
 
@@ -305,7 +313,7 @@ public class DateUtils {
         validateDateString(dateStr);
 
         SimpleDateFormat sdf = new SimpleDateFormat(format);
-        sdf.setTimeZone(UTC);
+        sdf.setTimeZone(DEFAULT_TIME_ZONE);
 
         try {
             return sdf.parse(dateStr);
