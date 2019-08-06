@@ -4,8 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class DateUtils {
 
@@ -16,6 +15,8 @@ public class DateUtils {
     public static final int DAY_IN_MSEC = 24 * 60 * 60 * 1000;
 
     public static final int MIN_IN_MSEC = 60 * 1000;
+
+    public static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
 
     public static java.sql.Date convertUtilToSql(java.util.Date uDate) {
@@ -52,7 +53,7 @@ public class DateUtils {
     public static Date asDate(LocalDate localDate) {
         validateDate(localDate);
         return Date.from(localDate.atStartOfDay()
-                .atZone(ZoneId.systemDefault())
+                .atZone(ZoneOffset.UTC)
                 .toInstant());
     }
 
@@ -89,7 +90,7 @@ public class DateUtils {
     public static Date asDate(LocalDateTime localDateTime) {
         validateDate(localDateTime);
         return Date.from(localDateTime
-                .atZone(ZoneId.systemDefault())
+                .atZone(ZoneOffset.UTC)
                 .toInstant());
     }
 
@@ -115,7 +116,7 @@ public class DateUtils {
     public static LocalDate asLocalDate(Date date) {
         validateDate(date);
         return Instant.ofEpochMilli(date.getTime())
-                .atZone(ZoneId.systemDefault())
+                .atZone(ZoneOffset.UTC)
                 .toLocalDate();
     }
 
@@ -128,7 +129,7 @@ public class DateUtils {
     public static LocalDateTime asLocalDateTime(Date date) {
         validateDate(date);
         return Instant.ofEpochMilli(date.getTime())
-                .atZone(ZoneId.systemDefault())
+                .atZone(ZoneOffset.UTC)
                 .toLocalDateTime();
     }
 
@@ -300,6 +301,8 @@ public class DateUtils {
         validateDateString(dateStr);
 
         SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setTimeZone(UTC);
+
         try {
             return sdf.parse(dateStr);
         } catch (ParseException e) {
