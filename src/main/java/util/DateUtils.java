@@ -3,9 +3,13 @@ package util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * Important! Convert to timestamp from UTC
+ */
 public class DateUtils {
 
     public static final String ONLY_DATE_FORMAT_ISO = "yyyy-MM-dd";
@@ -311,6 +315,30 @@ public class DateUtils {
     }
 
     /**
+     * @param dateStr dateStr
+     * @param format format
+     * @return Date
+     */
+    public static LocalDateTime parseToLocalDateTime(String dateStr, String format) {
+        validateDateString(dateStr);
+
+        Date date = parse(dateStr, format);
+        return asLocalDateTime(date);
+    }
+
+    /**
+     * @param dateStr dateStr
+     * @param format format
+     * @return Date
+     */
+    public static LocalDate parseToLocalDate(String dateStr, String format) {
+        validateDateString(dateStr);
+
+        Date date = parse(dateStr, format);
+        return asLocalDate(date);
+    }
+
+    /**
      * Parse format ISO with/without time
      *
      * @param dateStr dateStr
@@ -323,6 +351,28 @@ public class DateUtils {
             return parse(dateStr, DATE_FORMAT_ISO);
 
         return parse(dateStr, ONLY_DATE_FORMAT_ISO);
+    }
+
+    /**
+     * @param dateStr dateStr
+     * @return LocalDateTime
+     */
+    public static LocalDateTime parseISOToLocalDateTime(String dateStr) {
+        validateDateString(dateStr);
+
+        Date date = parseISO(dateStr);
+        return asLocalDateTime(date);
+    }
+
+    /**
+     * @param dateStr dateStr
+     * @return LocalDate
+     */
+    public static LocalDate parseISOToLocalDate(String dateStr) {
+        validateDateString(dateStr);
+
+        Date date = parseISO(dateStr);
+        return asLocalDate(date);
     }
 
     /**

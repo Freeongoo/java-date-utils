@@ -4,12 +4,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Date;
 import java.util.TimeZone;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
-import static util.DateUtils.parseISO;
+import static util.DateUtils.*;
 
 public class DateUtilsTest {
 
@@ -125,6 +126,22 @@ public class DateUtilsTest {
     @Test(expected = IllegalArgumentException.class)
     public void parse_WhenInvalidDateFormat() {
         DateUtils.parse("2016-02-02", "unknown format");
+    }
+
+    @Test
+    public void parseToLocalDateTime_WhenDateAndTime() {
+        LocalDateTime localDateTime = DateUtils.parseToLocalDateTime("2016-02-02T10:10:10", DATE_FORMAT_ISO);
+        LocalDateTime dateExpected = LocalDateTime.of(2016, Month.FEBRUARY, 2, 10, 10, 10);
+
+        assertThat(localDateTime, equalTo(dateExpected));
+    }
+
+    @Test
+    public void parseToLocalDateTime_WhenDateOnly() {
+        LocalDateTime localDateTime = DateUtils.parseToLocalDateTime("2016-02-02", ONLY_DATE_FORMAT_ISO);
+        LocalDateTime dateExpected = LocalDateTime.of(2016, Month.FEBRUARY, 2, 0, 0, 0);
+
+        assertThat(localDateTime, equalTo(dateExpected));
     }
 
     @Test
