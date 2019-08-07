@@ -1,11 +1,13 @@
 package util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.Objects.requireNonNull;
 
 public class DateUtils {
 
@@ -420,19 +422,102 @@ public class DateUtils {
         return date;
     }
 
+    /**
+     * @param date date
+     * @param format format
+     * @return date in formatted string
+     */
+    public static String toString(Date date, String format) {
+        validateDate(date);
+
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.format(date);
+    }
+
+    /**
+     * @param date date
+     * @param format format
+     * @return date in formatted string
+     */
+    public static String toString(LocalDateTime date, String format) {
+        return toString(asDate(date), format);
+    }
+
+    /**
+     * @param date date
+     * @param format format
+     * @return date in formatted string
+     */
+    public static String toString(LocalDate date, String format) {
+        return toString(asDate(date), format);
+    }
+
+    /**
+     * @param date date
+     * @return string date in ISO format
+     */
+    public static String toStringISO(Date date) {
+        validateDate(date);
+        return toString(date, DATE_FORMAT_ISO);
+    }
+
+    /**
+     * @param date date
+     * @return string date in ISO format without time
+     */
+    public static String toStringISOWithoutTime(Date date) {
+        validateDate(date);
+        return toString(date, ONLY_DATE_FORMAT_ISO);
+    }
+
+    /**
+     * @param localDateTime localDateTime
+     * @return string date in ISO format
+     */
+    public static String toStringISO(LocalDateTime localDateTime) {
+        return toStringISO(asDate(localDateTime));
+    }
+
+    /**
+     * @param localDate localDate
+     * @return string date in ISO format
+     */
+    public static String toStringISO(LocalDate localDate) {
+        return toStringISO(asDate(localDate));
+    }
+
+    /**
+     * @param obj obj
+     * @return string date formatted to ISO
+     */
+    public static String toStringISOIfDate(Object obj) {
+        requireNonNull(obj, "Cannot be passed null object");
+
+        if (obj instanceof Date) {
+            return toStringISO((Date) obj);
+        } else if (obj instanceof LocalDateTime) {
+            return toStringISO((LocalDateTime) obj);
+        } else if (obj instanceof LocalDate) {
+            return toStringISO((LocalDate) obj);
+        }
+
+        return obj.toString();
+    }
+
+
     private static void validateDateString(String dateStr) {
-        Objects.requireNonNull(dateStr, "The dateString passed cannot be null");
+        requireNonNull(dateStr, "The dateString passed cannot be null");
     }
 
     private static void validateDate(Date date) {
-        Objects.requireNonNull(date, "The date passed cannot be null");
+        requireNonNull(date, "The date passed cannot be null");
     }
 
     private static void validateDate(LocalDate date) {
-        Objects.requireNonNull(date, "The localDate passed cannot be null");
+        requireNonNull(date, "The localDate passed cannot be null");
     }
 
     private static void validateDate(LocalDateTime date) {
-        Objects.requireNonNull(date, "The localDateTime passed cannot be null");
+        requireNonNull(date, "The localDateTime passed cannot be null");
     }
 }

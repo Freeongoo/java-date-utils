@@ -1,5 +1,6 @@
 package util;
 
+import org.hamcrest.core.IsEqual;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -262,5 +263,31 @@ public class DateUtilsTest {
     @Test(expected = NullPointerException.class)
     public void calcIncOrDecDays_WhenNull() {
         Date actual = DateUtils.calcIncOrDecDays(null, 0);
+    }
+
+    @Test
+    public void toString_WhenConvertWithoutTime() {
+        String strDate = DateUtils.toString(parseISO("2017-02-02T10:10:10"), DateUtils.ONLY_DATE_FORMAT_ISO);
+        assertThat(strDate, IsEqual.equalTo("2017-02-02"));
+    }
+
+    @Test
+    public void toString_WhenConvertWithTime() {
+        String strDate = DateUtils.toString(parseISO("2017-02-02"), DateUtils.DATE_FORMAT_ISO);
+        assertThat(strDate, IsEqual.equalTo("2017-02-02T00:00:00"));
+    }
+
+    @Test
+    public void toString_WhenObjectDate() {
+        Object obj = parseISO("2017-02-02");
+        String strDate = DateUtils.toStringISOIfDate(obj);
+        assertThat(strDate, IsEqual.equalTo("2017-02-02T00:00:00"));
+    }
+
+    @Test
+    public void toString_WhenObjectLong() {
+        Object obj = 123L;
+        String strDate = DateUtils.toStringISOIfDate(obj);
+        assertThat(strDate, IsEqual.equalTo("123"));
     }
 }
